@@ -4,7 +4,7 @@
   <title><![CDATA[Blog Của Tui]]></title>
   <link href="http://nhan712.github.io/atom.xml" rel="self"/>
   <link href="http://nhan712.github.io/"/>
-  <updated>2015-05-09T09:53:52+07:00</updated>
+  <updated>2015-05-09T12:45:28+07:00</updated>
   <id>http://nhan712.github.io/</id>
   <author>
     <name><![CDATA[Nhan Van]]></name>
@@ -15,10 +15,10 @@
   
   <entry>
     <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://nhan712.github.io/blog/2015/05/08/hello-world/"/>
-    <updated>2015-05-08T21:54:49+07:00</updated>
-    <id>http://nhan712.github.io/blog/2015/05/08/hello-world</id>
-    <content type="html"><![CDATA[<p><strong>Viết cái gì???</strong></p>
+    <link href="http://nhan712.github.io/blog/2015/05/09/hello-world/"/>
+    <updated>2015-05-09T11:55:30+07:00</updated>
+    <id>http://nhan712.github.io/blog/2015/05/09/hello-world</id>
+    <content type="html"><![CDATA[<p><u><b>Viết cái gì???</b></u></p>
 
 <p>Đầu tiên, nói tới việc ra đời trang blog. Có 2 lý do:</p>
 
@@ -29,6 +29,24 @@
 
 
 <p>Kế tiếp, tui muốn tập&hellip; viết văn. Coi như là học lại môn Tiếng Việt đã bỏ ngót mấy năm từ khi tốt nghiệp cấp 3.</p>
+
+<p><u><b>Link đến các page cần thiết trên blog</b></u></p>
+
+<p>Theme blog này được đơn giản hóa cực kỳ, vì thế có một số trang cần thiết mà không được hiển thị tường minh
+trên giao diện.</p>
+
+<ul>
+<li><a href="http://nhan712.github.io/archives">Archive</a>: Chứa tất cả các entry.</li>
+<li><a href="http://nhan712.github.io/about">About</a>: Một số thông tin của tác giả (là tui).</li>
+</ul>
+
+
+<p><u><b>Kết bài</b></u></p>
+
+<p>Tạm thời viết nhiêu đây thôi vì chưa biết viết gì thêm -_-</p>
+
+<pre><code>            Ký tên, đóng dấu...
+</code></pre>
 ]]></content>
   </entry>
   

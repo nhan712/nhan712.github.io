@@ -4,7 +4,7 @@
   <title><![CDATA[nhan712]]></title>
   <link href="http://nhan712.github.io/atom.xml" rel="self"/>
   <link href="http://nhan712.github.io/"/>
-  <updated>2015-05-10T15:42:08+07:00</updated>
+  <updated>2015-09-21T00:15:43+07:00</updated>
   <id>http://nhan712.github.io/</id>
   <author>
     <name><![CDATA[Nhan Van]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mưa Sài Gòn]]></title>
+    <link href="http://nhan712.github.io/blog/2015/09/20/muasaigon/"/>
+    <updated>2015-09-20T23:52:43+07:00</updated>
+    <id>http://nhan712.github.io/blog/2015/09/20/muasaigon</id>
+    <content type="html"><![CDATA[<ul>
+<li>Sài Gòn mấy nay mưa suốt. Thật trùng hợp là mình cũng hay đi ra đường mỗi khi mưa, về nhà là cứ ướt nhẹp :(</li>
+<li>Viết vài dòng phủi bụi cho blog rồi ngủ thôi ;))</li>
+<li>Vừa nghe nhạc vừa nghe mưa ngủ là ngon :-&#8221;</li>
+</ul>
+
+
+<p><a href="https://www.youtube.com/watch?v=_ObEx1pIBVI"><img src="http://img.youtube.com/vi/_ObEx1pIBVI/0.jpg" alt="Kiep Ngheo - Nhu Quynh" /></a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hello World]]></title>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://nhan712.github.io/blog/2015/09/20/muasaigon/</loc>
+    <lastmod>2015-09-20T23:52:43+07:00</lastmod>
+  </url>
+  <url>
     <loc>http://nhan712.github.io/blog/2015/05/09/hello-world/</loc>
     <lastmod>2015-05-09T17:34:03+07:00</lastmod>
   </url>
@@ -18,5 +22,8 @@
   </url>
   <url>
     <loc>http://nhan712.github.io/about/</loc>
+  </url>
+  <url>
+    <loc>http://nhan712.github.io/blog/categories/van/</loc>
   </url>
 </urlset>

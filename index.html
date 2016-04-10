@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="https://demos.jquerymobile.com/1.4.5/_assets/css/jqm-demos.css" />
 </head>
 <body class="ui-mobile-viewport ui-overlay-a">
+	<button onclick="myFacebookLogin()">Login with Facebook</button>
 	<script>
 	  window.fbAsyncInit = function() {
 		FB.init({
@@ -17,10 +18,11 @@
 		  version    : 'v2.5'
 		});
 
-		FB.login(function(){
-			// Note: The call will only work if you accept the permission request
-			FB.api('/me/feed', 'post', {message: 'Hello, world!'});
-		}, {scope: 'publish_actions'});
+		
+		// Only works after `FB.init` is called
+		function myFacebookLogin() {
+			FB.login(function(){FB.api('/me/feed', 'post', {message: 'Hello, world!'});}, {scope: 'publish_actions'});
+		}
 	  };
 
 	  (function(d, s, id){

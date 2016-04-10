@@ -22,11 +22,22 @@
 	  // Only works after `FB.init` is called
 	  function myFacebookLogin() {
 	  	FB.login(function(response){
-			console.log(response);
-			FB.api('/me', {fields: 'last_name'}, function(response) {
-				console.log(response);
-			});
-		}, {scope: 'publish_actions'});
+			var userID = response.authResponse.userID;
+			/* make the API call */
+			FB.api(
+				"/me/feed",
+				"POST",
+				{
+					"message": "This is a test message"
+				},
+				function (response) {
+					if (response && !response.error) {
+						/* handle the result */
+						console.log(response)
+					}
+				}
+			);
+		}, true);
 	  }
 		
 	  (function(d, s, id){

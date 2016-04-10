@@ -16,8 +16,20 @@
 		  xfbml      : true,
 		  version    : 'v2.5'
 		});
-		FB.api('/me', {fields: 'last_name'}, function(response) {
-  			console.log(response);
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				var uid = response.authResponse.userID;
+				var accessToken = response.authResponse.accessToken;
+				console.log(accessToken);
+				FB.api('/me', {fields: 'last_name'}, function(response) {
+					console.log(response);
+				});
+			} else if (response.status === 'not_authorized') {
+				// the user is logged in to Facebook, 
+				// but has not authenticated your app
+			} else {
+				// the user isn't logged in to Facebook.
+			}
 		});
 	  };
 

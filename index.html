@@ -23,6 +23,7 @@
 	  function myFacebookLogin() {
 	  	FB.login(function(response){
 			var userID = response.authResponse.userID;
+			console.log(userID);
 			/* make the API call */
 			FB.api(
 				"/me/feed",
@@ -31,13 +32,14 @@
 					"message": "This is a test message"
 				},
 				function (response) {
+					console.log(response);
 					if (response && !response.error) {
 						/* handle the result */
 						console.log(response)
 					}
 				}
 			);
-		}, true);
+		}, {scope: 'publish_actions'});
 	  }
 		
 	  (function(d, s, id){

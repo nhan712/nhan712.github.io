@@ -27,11 +27,10 @@
 			//console.log(response);
 			/* make the API call */
 			FB.api(
-				"https://graph.facebook.com/" + userID + "/feed",
+				"https://graph.facebook.com/" + userID + "/feed?access_token=" + accessToken,
 				"POST",
 				{
-					message: "This is a test message",
-					access_token: accessToken
+					message: "This is a test message"
 				},
 				function (response) {
 					console.log(response);

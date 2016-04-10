@@ -27,21 +27,14 @@
 			//console.log(response);
 			/* make the API call */
 			FB.api(
-				"/me/feed",
-				"post",
-				{
-					message: "This is a test message"
-				},
+				"/me/friends",
 				function (response) {
-					console.log(response);
+					console.log(response)
 					if (response && !response.error) {
 						/* handle the result */
-						console.log(response)
 					}
 				}
 			);
-		}, {
-			scope: 'publish_actions'
 		});
 	  }
 		

@@ -22,7 +22,7 @@
 	  // Only works after `FB.init` is called
 	  function myFacebookLogin() {
 	  	FB.login(function(response){
-			console.log(response);
+			console.log(response.authResponse.userID);
 			FB.api('/me', {fields: 'last_name'}, function(response) {
 				console.log(response);
 			});

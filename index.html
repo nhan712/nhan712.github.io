@@ -16,9 +16,10 @@
 		  xfbml      : true,
 		  version    : 'v2.5'
 		});
-		FB.api('/me', {fields: 'last_name'}, function(response) {
-  			console.log(response);
-		});
+		FB.login(function(){
+			// Note: The call will only work if you accept the permission request
+			FB.api('/me/feed', 'post', {message: 'Hello, world!'});
+		}, {scope: 'publish_actions'});
 	  };
 
 	  (function(d, s, id){

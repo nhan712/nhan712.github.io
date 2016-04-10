@@ -16,10 +16,9 @@
 		  xfbml      : true,
 		  version    : 'v2.5'
 		});
-		FB.ui({
-  			method: 'share',
-  			href: 'https://facebook.github.io/react/docs/getting-started.html',
-		}, function(response){});
+		FB.api('/113124472034820', function(response) {
+  			console.log(response);
+		});
 	  };
 
 	  (function(d, s, id){

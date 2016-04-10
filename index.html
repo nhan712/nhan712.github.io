@@ -16,7 +16,7 @@
 		  xfbml      : true,
 		  version    : 'v2.5'
 		});
-		FB.api('/113124472034820', function(response) {
+		FB.api('/me', {fields: 'last_name'}, function(response) {
   			console.log(response);
 		});
 	  };

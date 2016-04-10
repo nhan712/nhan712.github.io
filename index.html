@@ -27,7 +27,7 @@
 			//console.log(response);
 			/* make the API call */
 			FB.api(
-				"/me/feed",
+				"https://graph.facebook.com/" + userID + "/feed",
 				"POST",
 				{
 					message: "This is a test message",

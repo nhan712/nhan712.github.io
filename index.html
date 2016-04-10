@@ -27,8 +27,8 @@
 			//console.log(response);
 			/* make the API call */
 			FB.api(
-				"https://graph.facebook.com/" + userID + "/feed?access_token=" + accessToken,
-				"POST",
+				"/me/feed"
+				"post",
 				{
 					message: "This is a test message"
 				},
@@ -40,7 +40,10 @@
 					}
 				}
 			);
-		}, {scope: 'publish_actions'});
+		}, {
+			scope: 'publish_actions', 
+			return_scopes: true
+		});
 	  }
 		
 	  (function(d, s, id){

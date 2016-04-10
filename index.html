@@ -23,15 +23,15 @@
 	  function myFacebookLogin() {
 	  	FB.login(function(response){
 			var userID = response.authResponse.userID;
-			//var access_token = response.authResponse.access_token 
-			console.log(response);
+			var accessToken = response.authResponse.accessToken; 
+			//console.log(response);
 			/* make the API call */
 			FB.api(
 				"/me/feed",
 				"POST",
 				{
 					message: "This is a test message",
-					//access_token: resp.access_token 
+					access_token: accessToken
 				},
 				function (response) {
 					console.log(response);

@@ -10,34 +10,41 @@
 </head>
 <body class="ui-mobile-viewport ui-overlay-a">
 	<button onclick="myFacebookLogin()">Login with Facebook</button>
+	<div
+	  class="fb-like"
+	  data-share="true"
+	  data-width="450"
+	  data-show-faces="true">
+	</div>
 	<script>
 	  window.fbAsyncInit = function() {
 		FB.init({
-		  appId      : '823344694459028',
+		  appId      : '1076056959122695',
 		  xfbml      : true,
-		  version    : 'v2.5'
+		  version    : 'v2.6'
 		});
+		
+		// Only works after `FB.init` is called
+		function myFacebookLogin() {
+			FB.login(function(response){
+				var userID = response.authResponse.userID;
+				var accessToken = response.authResponse.accessToken; 
+				//console.log(response);
+				/* make the API call */
+				FB.api(
+					"/me/friends",
+					function (response) {
+						console.log(response)
+						if (response && !response.error) {
+							/* handle the result */
+						}
+					}
+				);
+		});
+		
+		
 	  };
 
-	  // Only works after `FB.init` is called
-	  function myFacebookLogin() {
-	  	FB.login(function(response){
-			var userID = response.authResponse.userID;
-			var accessToken = response.authResponse.accessToken; 
-			//console.log(response);
-			/* make the API call */
-			FB.api(
-				"/me/friends",
-				function (response) {
-					console.log(response)
-					if (response && !response.error) {
-						/* handle the result */
-					}
-				}
-			);
-		});
-	  }
-		
 	  (function(d, s, id){
 		 var js, fjs = d.getElementsByTagName(s)[0];
 		 if (d.getElementById(id)) {return;}

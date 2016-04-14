@@ -90,7 +90,7 @@
 	  // successful.  See statusChangeCallback() for when this call is made.
 	  function testAPI() {
 		console.log('Welcome!  Fetching your information.... ');
-		FB.api('/me?fields=albums.limit(5),posts.limit(5)', function(response) {
+		FB.api('/me/photos', function(response) {
 			console.log('Response: ' + response);
 		  //console.log('Successful login for: ' + response.name);
 		  //document.getElementById('status').innerHTML =

@@ -16,6 +16,12 @@
 	  data-width="450"
 	  data-show-faces="true">
 	</div>
+	
+	<script src="http://code.jquery.com/jquery-2.2.2.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"></script>
+	<script src="../../build/react.js"></script>
+	<script src="../../build/react-dom.js"></script>
+	<!-- <script src="js/app.js"></script> -->
 	<script>
 	  window.fbAsyncInit = function() {
 		FB.init({
@@ -23,25 +29,6 @@
 		  xfbml      : true,
 		  version    : 'v2.6'
 		});
-		
-		// Only works after `FB.init` is called
-		function myFacebookLogin() {
-			FB.login(function(response){
-				var userID = response.authResponse.userID;
-				var accessToken = response.authResponse.accessToken; 
-				//console.log(response);
-				/* make the API call */
-				FB.api(
-					"/me/friends",
-					function (response) {
-						console.log(response)
-						if (response && !response.error) {
-							/* handle the result */
-						}
-					}
-				);
-			});
-		};	
 	  };
 
 	  (function(d, s, id){
@@ -52,11 +39,5 @@
 		 fjs.parentNode.insertBefore(js, fjs);
 	   }(document, 'script', 'facebook-jssdk'));
 	</script>
-	<script src="http://code.jquery.com/jquery-2.2.2.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"></script>
-	<script src="../../build/react.js"></script>
-	<script src="../../build/react-dom.js"></script>
-	<!-- <script src="js/app.js"></script> -->
-  
 </body>
 </html>

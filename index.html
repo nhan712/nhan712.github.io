@@ -55,24 +55,13 @@
 	<script src="build/react.js"></script>
 	<script src="build/react-dom.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
-	<script type="text/babel" src="js/app.js"></script>
+	<!-- <script type="text/babel" src="js/app.js"></script> -->
   </body>
 </html>
 <script>
 window.onload = function() {
-	alert(getFiles('/Install'));
-}
-function getFiles(dir){
-    fileList = [];
- 
-    var files = fs.readdirSync(dir);
-    for(var i in files){
-        if (!files.hasOwnProperty(i)) continue;
-        var name = dir+'/'+files[i];
-        if (!fs.statSync(name).isDirectory()){
-            fileList.push(name);
-        }
-    }
-    return fileList;
+	var loc = window.location.pathname;
+	var dir = loc.substring(0, loc.lastIndexOf('/'));
+	console.log(loc + " " + dir);
 }
 </script>

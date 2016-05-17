@@ -16,7 +16,7 @@
 	<div class="container">
 		<pre style="background-color: transparent; border: none; border-radius: none">
 		+-++-++-++-++-+
-		|N||'||L||a||b|
+		|||'||L||a||b|
 		+-++-++-++-++-+
 		</pre>
 		<div id="btn-wrapper">
@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 	  <div class="modal-dialog" role="document">
 		<div class="modal-content">
 		  <div class="modal-header">
@@ -46,7 +46,7 @@
 		  </div>
 		</div>
 	  </div>
-	</div>
+	</div> -->
 	
 	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity=
 	"sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
@@ -60,6 +60,19 @@
 </html>
 <script>
 window.onload = function() {
-	alert(1);
+	console.log(getFiles('/Install'));
+}
+function getFiles(dir){
+    fileList = [];
+ 
+    var files = fs.readdirSync(dir);
+    for(var i in files){
+        if (!files.hasOwnProperty(i)) continue;
+        var name = dir+'/'+files[i];
+        if (!fs.statSync(name).isDirectory()){
+            fileList.push(name);
+        }
+    }
+    return fileList;
 }
 </script>

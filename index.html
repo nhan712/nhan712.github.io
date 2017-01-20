@@ -76,14 +76,14 @@
 			  	// Note: The call will only work if you accept the permission request
   				// FB.api('/me/feed', 'post', {message: 'Hello, world!'});
   				FB.api(
-				    "/me_586937318167733/likes",
+				    "/586937318167733/reactions",
 				    function (response) {
 				      if (response && !response.error) {
 				        console.log(response);
 				      }
 				    }
 				);
-			  }, {scope: 'user_posts, user_likes'});
+			  });
 			}
 		</script>
     </body>

@@ -1,0 +1,1962 @@
+
+<!-- saved from url=(0046)http://localhost:8080/chess/patientdetail?id=1 -->
+<html class="sb-init">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="robots" content="noindex">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta content="IE=edge" http-equiv="X-UA-Compatible">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>心臓ペースメーカ患者管理システム</title>
+		<link href="./chessie8_files/bootstrap.min.css" rel="stylesheet">
+		<link href="./chessie8_files/jquery-ui.min.css" rel="stylesheet">
+		<link href="./chessie8_files/ripples.min.css" rel="stylesheet">
+		<link href="./chessie8_files/material-wfont.min.css" rel="stylesheet">
+		<link href="./chessie8_files/snackbar.min.css" rel="stylesheet">
+		<link href="./chessie8_files/slidebars.min.css" rel="stylesheet">
+		<link href="./chessie8_files/base.css" rel="stylesheet">
+		<link href="./chessie8_files/color-pattern.css" rel="stylesheet">
+		<link href="http://localhost:8080/chess/images/share/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<style type="text/css"></style>
+		<script src="./chessie8_files/html5shiv.min.js"></script>
+		<script src="./chessie8_files/respond.min.js"></script>
+	</head>
+<body onunload="CloseChildWindow();">
+	<div class="navbar bgcolor-primary-0 navbar-fixed-top sb-slide" style="width:100%">
+		<div class="navbar-header" style="float:left">
+            <div class="navbar-text navbar-left sb-toggle-left" style="float:left;margin-top:16px;margin-bottom:16px;">
+				<i class="mdi-navigation-menu" style="font-size:18px;"></i>
+            </div>
+            
+            <div class="navbar-brand" style="cursor:default; height:50px; line-height:20px; padding-top:15px">
+            	メディ会ジョイスト病院
+            </div>
+		</div>
+		
+        <div class="navbar-text navbar-right sb-toggle-right" style="padding-right:38px; float:right;margin-top:15px;margin-bottom:15px;">
+			スーパ ユーザ <i class="mdi-social-person"></i> <b class="caret"></b>
+        </div>
+	</div>
+	
+	<div id="header-bar" class="sb-slide fix-header">
+		<ol class="breadcrumb bgcolor-primary-1">
+			<li><a href="http://localhost:8080/chess/dashboard"><i class="mdi-action-home"></i>Home</a></li>
+		<li><a href="javascript:gobackUserList()">患者管理</a></li><li>患者時系列</li><div id="userInfoDiv" style="float:right; padding-right:10px">1：櫻井　太郎　年齢：47　性別：男</div></ol>
+	</div>
+	
+	<!-- Kadai 65 removed-->
+	<!-- PDF情報 -->
+	<div id="myModal" class="modal fade ui-draggable" style="width:800px ;height:630px; left:55%; top:23.5%">
+		<div class="modal-dialog" style="margin:0; width:800px">
+			<div class="modal-content">
+				<div style="padding-top: 0px;background-color:#CC2900" class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+					</button>
+					<h4 class="modal-title">PDF情報</h4>
+				</div>
+				<div style="padding-left:0px; padding-right:0px;
+					padding-top:0px; padding-bottom: 0px" class="modal-body modal-body-pdf">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- PDF START -->
+	<div id="mySecondModal" class="mySecondDraggableDialog modal fade" tabindex="-1">
+	    <div class="modal-dialog" style="margin-left:30%; width: 896px;">
+	        <div class="modal-content">
+	            <div class="modal-header" style="padding-top:5px; padding-bottom:3px;">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                 <h4 class="modal-title" id="myModalLabel">Set Position</h4>
+	            </div>
+	            
+	            <div id="viewport" class="modal-body" style="padding-left: 0px;padding-right: 0px;padding-top: 0px;padding-bottom: 6px">
+	            	<canvas id="c" width="1275" height="1650">
+					</canvas>
+					
+					<input id="pageNumber" type="text" title="Please input page number" maxlength="3" class="number-only" style="position: absolute; left: 10px; top: 20px; width:40px; text-align:center">
+					
+					<button type="button" id="btnModalClose" class="btn btn-primary btn-default" style="position: absolute; left: 60px; top: 6px; opacity: 0.5;" onclick="closeSecondModal();">いいえ</button>
+						
+					<button type="button" id="btnModalOk" style="position: absolute; left: 168px; top: 6px; opacity: 0.5;" class="btn btn-material-red" onclick="acceptSecondModal();">はい</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- PDF END -->
+	
+	<div style="height:110px; background:white">
+	</div>
+	
+	<div id="sb-site" style="min-width: 600px; min-height: 681px;">
+
+<div class="container">
+<div class="panel panel-color-secondary-1-4 divTabPanel">
+	<div class="panel-heading">
+		<h3 class="panel-title">患者時系列</h3>
+	</div>
+	
+	<div class="panel-body">
+		<form id="userDetailForm" class="form-horizontal" action="http://localhost:8080/chess/patientdetail" method="post">
+			<input id="hiddenDataSearch" name="hiddenDataSearch" type="hidden" value="">
+			<input id="patientResultInfo" name="patientResultInfo" type="hidden" value="">
+			<input id="mode" name="mode" type="hidden" value="0">
+			
+			<input id="hdnHospitalPatientId" name="hospitalPatientId" type="hidden" value="1">
+			<input id="hdnPdfId" name="pdfId" type="hidden" value="0">
+			<input id="hdnTestId" name="testId" type="hidden" value="0">
+			<input id="hdnRemoteType" name="remoteType" type="hidden" value="0">
+			<input id="hdnPdf" name="pdf" type="hidden" value="0">
+			<input id="hdnPacemakerId" name="pacemakerId" type="hidden" value="74">
+			<input id="testIdCsv" name="testIdCsv" type="hidden" value="0">
+			<input id="backState" name="backState" type="hidden" value="0">
+			<input id="patientId" name="patientId" type="hidden" value="1">
+			<input id="pacemakerIdList" name="pacemakerIdList" type="hidden" value="75,74">
+			
+			<input id="numberOfRows" name="numberOfRows" type="hidden" value="25">
+			<input id="startRowIdx" name="startRowIdx" type="hidden" value="0">
+			<input id="searched" name="searched" type="hidden" value="0">
+			<input id="currentPage" name="currentPage" type="hidden" value="1">
+			
+			
+			<div role="tabpanel">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist" id="userTab">
+					<li role="presentation" class="active"><a href="http://localhost:8080/chess/patientdetail?id=1#patientBaseInfo" aria-controls="patientBaseInfo" role="tab" data-toggle="tab" aria-expanded="true">患者基本情報<div class="ripple-wrapper"></div></a></li>
+					<li role="presentation"><a href="http://localhost:8080/chess/patientdetail?id=1#pacemakerInfo" aria-controls="pacemakerInfo" role="tab" data-toggle="tab">デバイス・リード情報</a></li>
+					<li role="presentation"><a href="http://localhost:8080/chess/patientdetail?id=1#otherInfo" aria-controls="otherInfo" role="tab" data-toggle="tab">患者その他情報</a></li>
+					<li role="presentation" class=""><a href="http://localhost:8080/chess/patientdetail?id=1#checkDataInfo" aria-controls="checkDataInfo" role="tab" data-toggle="tab" aria-expanded="false">チェック日一覧</a></li>
+				</ul>
+				<div class="group has-error">
+					
+				</div>
+				
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<!-- 患者基本情報 -->
+					<div role="tabpanel" class="tab-pane active" id="patientBaseInfo">
+						<fieldset>
+							<div class="form-group">
+								<label for="hospitalPatientId" class="col-md-1 control-label">ID</label>
+								<div class="col-md-2">
+									<input type="text" class="form-control" id="hospitalPatientId" value="1" disabled="">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="name" class="col-md-1 control-label">氏名</label>
+								<div class="col-md-2">
+									<input type="text" class="form-control" disabled="" id="name" value="櫻井 太郎">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="nameKana" class="col-md-1 control-label">カナ氏名</label>
+								<div class="col-md-2">
+									<input type="text" class="form-control" id="nameKana" value="サクライア タロウ" disabled="">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="gender" class="col-md-1 control-label">性別</label>
+								<div class="col-md-2">
+									<input type="text" class="form-control" disabled="" id="gender" value="男">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="birthday" class="col-md-1 control-label">生年月日</label>
+								<div class="col-md-2">
+									
+									<input type="text" class="form-control" id="birthday" value="1970/01/01" disabled="">
+								</div>
+								
+								<label for="age" class="col-md-1 control-label">年齢</label>
+								<div class="col-md-2">
+									<input type="text" class="form-control" disabled="" id="age" value="47">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="address" class="col-md-1 control-label">住所</label>
+								<div class="col-md-2">
+									<input type="text" class="form-control" disabled="" id="address" value="">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="telephone" class="col-md-1 control-label">電話番号</label>
+								<div class="col-md-2">
+									<input type="text" class="form-control" disabled="" id="telephone" value="">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="col-xs-1">
+								</div>
+								
+								
+									<a href="javascript:editPatientInfo(&#39;1&#39;);" class="btn btn-material-cyan-600 mdi-editor-border-color" title="Edit"></a>
+								
+								
+							</div>
+						</fieldset>
+					</div>
+					
+					<!-- デバイス・リード情報 -->
+					<div role="tabpanel" class="tab-pane" id="pacemakerInfo">
+						<fieldset>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">&nbsp;</label>
+								<label class="col-sm-2">メーカ</label>
+								<label class="col-sm-2" style="width:10%">植込み日</label>
+								<label class="col-sm-3">モデル名</label>
+								<label class="col-sm-2" style="width:14%">モデルNo</label>
+								<label class="col-sm-1" style="width:12%">シリアルNo</label>
+							</div>
+							
+							
+								<div class="form-group">
+									<label for="fromdate" class="col-sm-2 control-label">Device
+									
+									
+										
+										
+									
+											<span class="badge">3</span>
+										
+										
+									
+									</label>
+									
+									<!-- メーカ -->
+									<div class="col-sm-2">
+										<input type="text" class="form-control" value="St. Jude Medical" title="St. Jude Medical" disabled="">
+									</div>
+									
+									<!-- 植込み日 -->
+									<div class="col-sm-2" style="width:10%">
+										<input type="text" class="form-control datepic hasDatepicker" value="2015/02/03" title="2015/02/03" disabled="" id="dp1490361698388">
+									</div>
+									
+									<!-- モデル名 -->
+									<div class="col-sm-3">
+										<input type="text" class="form-control" value="Nuance MRI SR (IS-1)" title="Nuance MRI SR (IS-1)" disabled="">
+									</div>
+									
+									<!-- モデルNo -->
+									<div class="col-sm-2" style="width:14%">
+										<input type="text" class="form-control" value="PM1130" title="PM1130" disabled="">
+									</div>
+									
+									<!-- シリアルNo -->
+									<div class="col-sm-2" style="width:12%">
+										<input type="text" class="form-control" value="1" title="1" disabled="">
+									</div>
+								</div>
+							
+								<div class="form-group">
+									<label for="fromdate" class="col-sm-2 control-label">A-Lead
+									
+									
+										
+										
+										
+											
+												
+													<span class="label label-primary">3</span>
+												
+												
+												
+												
+											
+										
+									
+									</label>
+									
+									<!-- メーカ -->
+									<div class="col-sm-2">
+										<input type="text" class="form-control" value="Sorin" title="Sorin" disabled="">
+									</div>
+									
+									<!-- 植込み日 -->
+									<div class="col-sm-2" style="width:10%">
+										<input type="text" class="form-control datepic hasDatepicker" value="2013/02/03" title="2013/02/03" disabled="" id="dp1490361698389">
+									</div>
+									
+									<!-- モデル名 -->
+									<div class="col-sm-3">
+										<input type="text" class="form-control" value="Reply 200 SR (IS-1)" title="Reply 200 SR (IS-1)" disabled="">
+									</div>
+									
+									<!-- モデルNo -->
+									<div class="col-sm-2" style="width:14%">
+										<input type="text" class="form-control" value="REPLY 200 SR" title="REPLY 200 SR" disabled="">
+									</div>
+									
+									<!-- シリアルNo -->
+									<div class="col-sm-2" style="width:12%">
+										<input type="text" class="form-control" value="1" title="1" disabled="">
+									</div>
+								</div>
+							
+							
+							<div class="form-group">
+								<div class="col-xs-1"></div>
+								
+									
+										<a href="javascript:pacemakeredit();" class="btn btn-material-cyan-600 mdi-editor-border-color" title="Edit"></a>
+									
+								
+							</div>
+						</fieldset>
+					</div>
+					
+					<!-- 患者その他情報 -->
+					<div role="tabpanel" class="tab-pane" id="otherInfo">
+						<fieldset>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+											
+											
+											
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">フォローアップ中
+												</label>
+												
+												<div class="col-md-2">
+													<div class="radio radio-primary">
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios1フォローアップ中" id="optionsRadios1フォローアップ中" value="1" disabled=""><span class="circle"></span><span class="check"></span> Yes
+														</label>
+														 
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios2フォローアップ中" id="optionsRadios2フォローアップ中" value="0" disabled=""><span class="circle"></span><span class="check"></span> No
+														</label>
+													</div>
+												</div>
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+											
+											
+											
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">遠隔モニタリング
+												</label>
+												
+												<div class="col-md-2">
+													<div class="radio radio-primary">
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios1遠隔モニタリング" id="optionsRadios1遠隔モニタリング" value="1" disabled=""><span class="circle"></span><span class="check"></span> Yes
+														</label>
+														 
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios2遠隔モニタリング" id="optionsRadios2遠隔モニタリング" value="0" disabled=""><span class="circle"></span><span class="check"></span> No
+														</label>
+													</div>
+												</div>
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+											
+											
+											
+											
+											
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">疾患１
+												</label>
+												
+												<div class="col-sm-3">										
+													<select name="lstPatientInfo[].mstPatientAttribute[].settingValue" class="form-control" disabled="">
+														<option></option>
+														
+															
+																<option value="1" selected="selected">
+																	洞機能不全症候群
+																</option>
+															
+														
+															
+																<option value="2">
+																	洞機能不全症候群-洞性徐脈
+																</option>
+															
+														
+															
+																<option value="3">
+																	洞機能不全症候群-洞停止/洞房ブロック
+																</option>
+															
+														
+															
+																<option value="4">
+																	洞機能不全症候群-徐脈頻脈症候群
+																</option>
+															
+														
+															
+																<option value="5">
+																	房室ブロック
+																</option>
+															
+														
+															
+																<option value="6">
+																	房室ブロック-第1度房室ブロック
+																</option>
+															
+														
+															
+																<option value="7">
+																	房室ブロック-第2度房室ブロック (Wenckebach型)
+																</option>
+															
+														
+															
+																<option value="8">
+																	房室ブロック-第2度房室ブロック (Mobitz II型)
+																</option>
+															
+														
+															
+																<option value="9">
+																	房室ブロック-第3度房室ブロック
+																</option>
+															
+														
+															
+																<option value="10">
+																	徐脈性心房細動
+																</option>
+															
+														
+															
+																<option value="11">
+																	頚動脈過敏症候群・神経調節性失神
+																</option>
+															
+														
+															
+																<option value="12">
+																	心室細動
+																</option>
+															
+														
+															
+																<option value="13">
+																	心室頻拍
+																</option>
+															
+														
+															
+																<option value="14">
+																	Brugada症候群
+																</option>
+															
+														
+															
+																<option value="15">
+																	QT延長症候群
+																</option>
+															
+														
+															
+																<option value="16">
+																	拡張型心筋症
+																</option>
+															
+														
+															
+																<option value="17">
+																	肥大型心筋症
+																</option>
+															
+														
+															
+																<option value="18">
+																	左脚ブロック
+																</option>
+															
+														
+															
+																<option value="19">
+																	右脚ブロック
+																</option>
+															
+														
+													</select>													
+												</div>
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+											
+											
+											
+											
+											
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">疾患２
+												</label>
+												
+												<div class="col-sm-3">										
+													<select name="lstPatientInfo[].mstPatientAttribute[].settingValue" class="form-control" disabled="">
+														<option></option>
+														
+															
+																<option value="1">
+																	洞機能不全症候群
+																</option>
+															
+														
+															
+																<option value="2">
+																	洞機能不全症候群-洞性徐脈
+																</option>
+															
+														
+															
+																<option value="3">
+																	洞機能不全症候群-洞停止/洞房ブロック
+																</option>
+															
+														
+															
+																<option value="4">
+																	洞機能不全症候群-徐脈頻脈症候群
+																</option>
+															
+														
+															
+																<option value="5">
+																	房室ブロック
+																</option>
+															
+														
+															
+																<option value="6">
+																	房室ブロック-第1度房室ブロック
+																</option>
+															
+														
+															
+																<option value="7">
+																	房室ブロック-第2度房室ブロック (Wenckebach型)
+																</option>
+															
+														
+															
+																<option value="8">
+																	房室ブロック-第2度房室ブロック (Mobitz II型)
+																</option>
+															
+														
+															
+																<option value="9">
+																	房室ブロック-第3度房室ブロック
+																</option>
+															
+														
+															
+																<option value="10">
+																	徐脈性心房細動
+																</option>
+															
+														
+															
+																<option value="11">
+																	頚動脈過敏症候群・神経調節性失神
+																</option>
+															
+														
+															
+																<option value="12">
+																	心室細動
+																</option>
+															
+														
+															
+																<option value="13">
+																	心室頻拍
+																</option>
+															
+														
+															
+																<option value="14">
+																	Brugada症候群
+																</option>
+															
+														
+															
+																<option value="15">
+																	QT延長症候群
+																</option>
+															
+														
+															
+																<option value="16">
+																	拡張型心筋症
+																</option>
+															
+														
+															
+																<option value="17">
+																	肥大型心筋症
+																</option>
+															
+														
+															
+																<option value="18">
+																	左脚ブロック
+																</option>
+															
+														
+															
+																<option value="19">
+																	右脚ブロック
+																</option>
+															
+														
+													</select>													
+												</div>
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">その他疾患</label>
+												<div class="col-sm-5">
+													<input type="text" class="form-control" value="1" disabled="">
+												</div>
+											
+											
+											
+											
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">合併症</label>
+												<div class="col-sm-5">
+													<input type="text" class="form-control" value="1" disabled="">
+												</div>
+											
+											
+											
+											
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+											
+											
+											
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">抗凝固剤
+												</label>
+												
+												<div class="col-md-2">
+													<div class="radio radio-primary">
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios1抗凝固剤" id="optionsRadios1抗凝固剤" value="1" disabled=""><span class="circle"></span><span class="check"></span> Yes
+														</label>
+														 
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios2抗凝固剤" id="optionsRadios2抗凝固剤" value="0" disabled=""><span class="circle"></span><span class="check"></span> No
+														</label>
+													</div>
+												</div>
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">薬剤名（抗凝固剤）</label>
+												<div class="col-sm-5">
+													<input type="text" class="form-control" value="" disabled="">
+												</div>
+											
+											
+											
+											
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+											
+											
+											
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">MRI撮影可否
+												</label>
+												
+												<div class="col-md-2">
+													<div class="radio radio-primary">
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios1MRI撮影可否" id="optionsRadios1MRI撮影可否" value="1" disabled=""><span class="circle"></span><span class="check"></span> Yes
+														</label>
+														 
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios2MRI撮影可否" id="optionsRadios2MRI撮影可否" value="0" disabled=""><span class="circle"></span><span class="check"></span> No
+														</label>
+													</div>
+												</div>
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+											
+											
+												
+												
+													<label for="title" class="checkbox col-md-1 control-label" style="width: 15.699999%">自動車運転制限　　　免許非保有
+													</label>
+												
+												
+															
+												
+												
+												<div class="col-md-1">
+													<div class="checkbox checkbox-primary">
+														<label> 
+															<input type="checkbox" name="optionsRadios" id="optionsRadios1" value="option1" disabled=""><span class="ripple"></span><span class="check"></span> 
+														</label>
+													</div>
+												</div>
+											
+											
+											
+											
+											
+										
+									
+										
+											
+											
+											
+												
+												
+													<label for="title" class="checkbox col-md-1 control-label" style="width: 15.699999%">申請中
+													</label>
+												
+												
+															
+												
+												
+												<div class="col-md-1">
+													<div class="checkbox checkbox-primary">
+														<label> 
+															<input type="checkbox" name="optionsRadios" id="optionsRadios1" value="option1" disabled=""><span class="ripple"></span><span class="check"></span> 
+														</label>
+													</div>
+												</div>
+											
+											
+											
+											
+											
+										
+									
+										
+											
+											
+											
+												
+												
+													<label for="title" class="checkbox col-md-1 control-label" style="width: 15.699999%">申請後許可
+													</label>
+												
+												
+															
+												
+												
+												<div class="col-md-1">
+													<div class="checkbox checkbox-primary">
+														<label> 
+															<input type="checkbox" name="optionsRadios" id="optionsRadios1" value="option1" disabled=""><span class="ripple"></span><span class="check"></span> 
+														</label>
+													</div>
+												</div>
+											
+											
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+											
+											
+											
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">DFTテスト有無
+												</label>
+												
+												<div class="col-md-2">
+													<div class="radio radio-primary">
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios1DFTテスト有無" id="optionsRadios1DFTテスト有無" value="1" disabled=""><span class="circle"></span><span class="check"></span> Yes
+														</label>
+														 
+														<label class="disabled"> 
+															<input type="radio" name="optionsRadios2DFTテスト有無" id="optionsRadios2DFTテスト有無" value="0" disabled=""><span class="circle"></span><span class="check"></span> No
+														</label>
+													</div>
+												</div>
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">DFTテスト方法</label>
+												<div class="col-sm-5">
+													<input type="text" class="form-control" value="" disabled="">
+												</div>
+											
+											
+											
+											
+											
+											
+											
+										
+									
+								</div>
+							
+								<div class="form-group short-form-group2">
+									
+										
+											
+												<label for="title" class="col-md-1 control-label" style="width: 15.699999%">DFTショック閾値（J）</label>
+												<div class="col-sm-5">
+													<input type="text" class="form-control" value="" disabled="">
+												</div>
+											
+											
+											
+											
+											
+											
+											
+										
+									
+								</div>
+							
+							
+							<div class="form-group">
+								<div class="col-xs-1"></div>
+								
+									
+										<a href="javascript:otherinfoedit();" class="btn btn-material-cyan-600 mdi-editor-border-color" title="Edit"></a>
+									
+								
+							</div>
+						</fieldset>
+					</div>
+					
+					<!-- チェック・データ情報 -->
+					<div role="tabpanel" class="tab-pane" id="checkDataInfo">
+						
+							<div style="text-align:right">
+								<a href="javascript:resultAddNew(&#39;1&#39;);" class="btn btn-primary mdi-content-add-box" title="検査の新規登録を行います。"></a>
+							</div>
+							<div class="col-md-offset-9 col-md-3">
+							
+								<fieldset>
+									<div class="form-group">
+										<label class="col-xs-4 control-label">View</label>
+										<div class="col-xs-8">
+											<select class="form-control" id="rowView">
+												
+													<option value="25">25</option>
+												
+													<option value="50">50</option>
+												
+													<option value="50000">All</option>
+												
+											</select>
+										</div>
+									</div>
+								</fieldset>
+							
+						</div>
+						
+							<table class="template" id="tblCheckDataInfoTemplate">
+								<tbody>
+									<tr class="first_row">
+										<!-- 検査日 -->
+										<td rowspan="4">
+										</td>
+										<!-- Tachy Therapy -->
+										<td rowspan="4"></td>
+										<!-- Mode -->
+										<td rowspan="4"></td>
+										<!-- LRL / MTR -->
+										<td rowspan="4"></td>
+										<!-- Battery Row 1-->
+										<th>Voltage(V)</th>
+										<td style="width: 36px"></td>
+										<!-- Lead Imp. (Ω) -->
+										<th>A</th>
+										<td></td>
+										<!-- Intrinsic Amp. (mV) -->
+										<th>A</th>
+										<td></td>
+										<!-- Pacing Thre. (V/ms) -->
+										<th>A</th>
+										<td></td>
+										<!-- Ap/RVp (%) -->
+										<td rowspan="4"></td>
+										<!-- 備考/申し送り -->
+										<td rowspan="4" class="showtooltip" data-container="body" data-toggle="tooltip" data-original-title="" title=""></td>
+										<!-- Action -->
+										<td rowspan="4" align="center" style="width: 50px" class="action"></td>
+									</tr>
+									<tr class="second_row">
+										<!-- Battery Row2 -->
+										<th>Longevity(Y.M)</th>
+										<td></td>
+										<!-- Lead Imp. (Ω) Row 2-->
+										<th>RV</th>
+										<td></td>
+										<!-- Intrinsic Amp. (mV) Row 2-->
+										<th>RV</th>
+										<td></td>
+										<!-- Pacing Thre. (V/ms) Row 2  -->
+										<th>RV</th>
+										<td></td>
+									</tr>
+									<tr class="third_row">
+										<!-- Battery Row 3 -->
+										<th>Charge Time(sec)</th>
+										<td></td>
+										<th>LV</th>
+										<td></td>
+										<th>LV</th>
+										<td></td>
+										<th>LV</th>
+										<td></td>
+									</tr>
+									<tr class="fourth_row">
+										<!-- Battery Row 4 -->
+										<th>Remaining</th>
+										<td></td>
+										<th>RV-Coil</th>
+										<td></td>
+										<th></th>
+										<td></td>
+										<th></th>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+							
+							<table class="table table-bordered table-hover-detail table-condensed table-responsive" id="user_detail_table">
+							<thead>
+								<tr class="tr_striped_th">
+									<th>検査日 <i class="mdi-navigation-expand-more"></i></th>
+									<th>Tachy Therapy</th>
+									<th>Mode</th>
+									<th>LRL / MTR</th>
+									<th colspan="2">Battery</th>
+									<th colspan="2">Lead Imp. (Ω)</th>
+									<th colspan="2">Intrinsic Amp. (mV)</th>
+									<th colspan="2">Pacing Thre. (V/ms)</th>
+									<th>Ap/RVp (%)</th>
+									<th width="14%">備考/申し送り</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							
+							<tbody>
+							
+						</tbody>
+						</table>
+						
+						<ul class="pagination" style="display:none">
+						</ul>
+					</div>
+					
+					<!-- PDF情報 -->
+					<!-- <div id="myModal" class="modal fade" style="width: 800px;height: 630px;left:55%;top:23.5%">
+						<div class="modal-dialog" style="margin:0;width: 800px" >
+							<div class="modal-content">
+								<div style="padding-top: 0px;background-color:#CC2900" class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">&times;</button>
+									<h4 class="modal-title">PDF情報</h4>
+								</div>
+								<div  style="padding-left: 0px;padding-right: 0px;padding-top: 0px;padding-bottom: 0px" class="modal-body">
+								</div>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div></form>
+		
+	</div>
+</div>
+</div>
+
+			<!-- Footer Start -->
+			<footer><a href="http://medijoyst.com/" target="medijoyst">© MEDIJOYST Inc. AllRights Reserved.</a></footer>
+			<div style="height:22px;"></div>
+			<!-- Footer End -->
+		</div>
+	
+
+
+
+<!-- Left Panel Start -->
+<div class="sb-slidebar sb-left sb-style-push bgcolor-secondary-2-0" style="margin-left: -346px;">
+	<ul class="nav nav-tabs nav-stacked bgcolor-secondary-2-1" id="stacked-menu">
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+				<li><a href="http://localhost:8080/chess/addpatientattribute">患者登録</a></li>
+			
+		
+			
+				<li><a href="http://localhost:8080/chess/patientlist">患者管理</a></li>	
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+				<li><a href="http://localhost:8080/chess/unuserlist">未確定データ一覧</a></li>
+			
+			
+		
+			
+			
+				<li><a href="http://localhost:8080/chess/pdfimport">PDF取り込み</a></li>
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+			
+			
+			
+			
+		
+		<!-- Admin Only End -->
+		<li><a href="http://localhost:8080/chess/logout"><i class="mdi-action-exit-to-app"></i> LogOff</a></li>
+	</ul>
+</div>
+<!-- Left Panel End -->
+
+
+
+<!-- Right Panel Start -->
+	<div class="sb-slidebar sb-right sb-style-overlay bgcolor-complement-2" style="margin-right: -346px;">
+        <ul class="nav nav-tabs nav-stacked  bgcolor-complement-0" id="stacked-right-menu">
+            <li>
+				<div class="text-center" style="margin-top:10px;margin-bottom:10px;">
+				
+					
+					
+						<img src="./chessie8_files/noname.jpg" class="img-circle" width="50%">
+					
+				
+
+			</div>
+		</li>
+		<li><a href="http://localhost:8080/chess/profileedit">ユーザ情報変更</a></li>
+		<!-- Admin Only Start -->
+		
+			<li><a href="http://localhost:8080/chess/patientdetail?id=1#" data-target="#itemR" data-toggle="collapse" data-parent="#stacked-menu">マスタ<b class="caret arrow"></b></a>
+				<ul class="nav nav-stacked collapse rightpane-screen-display" id="itemR">
+					
+						
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+					
+						
+							<li><a href="http://localhost:8080/chess/adminuserlist">ユーザマスタ</a></li>
+						
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+							<li><a href="http://localhost:8080/chess/adminmakerlist">デバイスカテゴリマスタ</a></li>
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+							<li><a href="http://localhost:8080/chess/adminpacemakerlist">デバイス機器マスタ</a></li>
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+							<li><a href="http://localhost:8080/chess/adminitemlist">項目マスタ</a></li>
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+							<li><a href="http://localhost:8080/chess/adminitemcategorylist">項目カテゴリマスタ</a></li>
+						
+						
+					
+						
+						
+							<li><a href="http://localhost:8080/chess/adminhospitallist">病院マスタ</a></li>
+						
+						
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+							<li><a href="http://localhost:8080/chess/adminmatchlist">シリアルマッチマスタ</a></li>
+						
+					
+				</ul></li>
+		
+	</ul>
+</div>
+<!-- Right Panel End -->
+
+	<!-- JS Start -->
+	<script src="./chessie8_files/jquery-1.11.2.min.js.download"></script>
+	<script src="./chessie8_files/jquery-ui-1.10.4.custom.min.js.download"></script>
+	<script src="./chessie8_files/datepicker-ja.js.download"></script>
+	<script src="./chessie8_files/bootstrap.min.js.download"></script>
+	<script src="./chessie8_files/ripples.min.js.download"></script>
+	<script src="./chessie8_files/material.min.js.download"></script>
+	<script src="./chessie8_files/snackbar.min.js.download"></script>
+	<script src="./chessie8_files/jquery.nouislider.min.js.download"></script>
+	<script src="./chessie8_files/slidebars.min.js.download"></script>
+	<script src="./chessie8_files/jquery.tablesorter.js.download"></script>
+	<script src="./chessie8_files/form2js.js.download"></script> 
+	<script src="./chessie8_files/common.js.download"></script> 
+	<script src="./chessie8_files/messages.js.download"></script> 
+	<script src="./chessie8_files/jquery.autoKana.js.download"></script>
+	<script src="./chessie8_files/spin.min.js.download"></script>
+	<script>
+		$.material.init();
+	</script>
+	
+	<script>
+		(function($) {
+			$(document).ready(function() {
+				$.slidebars();
+			})
+		}) (jQuery);
+		
+		function getCookie(key) {
+            var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+            return keyValue ? keyValue[2] : null;
+        }
+		
+		function fncShowUserInfo() {
+			var header = $("#header-bar ol");
+		    header.last().append('<div id="userInfoDiv" style="float:right; padding-right:10px"></div>');
+		    
+		    var info = decodeURIComponent(getCookie("chess_loginHeader"));
+		    
+		    if (info != "null")
+				$("#userInfoDiv").text(info);
+		}
+	</script>
+	
+	<script>
+		$(function() {
+			$.datepicker.setDefaults($.datepicker.regional['ja']);
+			$('.datepic').datepicker({ dateFormat: 'yy/mm/dd'});
+		});
+		
+		//init popup array
+		var Popup_Wind = new Array();
+		/* function close child window */
+		function CloseChildWindow() {
+	           if (Popup_Wind.length != 0) {
+	               for (var i = 0; i < Popup_Wind.length; i++) {
+	                   Popup_Wind[i].close();
+	               }
+	           } 
+	       }
+		
+		$('#divFlashMsg').each(function() {
+		    $(this).remove();
+		});
+	</script>
+	
+	<!-- JS End -->
+
+
+
+
+<script>
+$(window, document, undefined).ready(function() {			
+	var mess = '';
+	if (mess != null && mess != '') {
+		//show message by 5 seconds
+		showWarning('patientBaseInfo', mess, 5000);
+	}
+});
+
+var $readOnly =  '0';
+var $isEdit =  '1';
+var $isDelete =  '1';
+
+$(document).ready(
+	function() {
+		var header = $("#header-bar ol");
+	    header.last().append('<li><a href="javascript:gobackUserList()">患者管理</a></li>');
+	    header.last().append('<li>患者時系列</li>');
+	    
+	 	// display patient info in header
+		fncShowUserInfo();
+		
+		// add modal div
+		createDeleteConfirmationModal('divDeleteModal',
+				CONFIRMATION_DELETE_TITLE, CONFIRMATION_DELETE_MSG,
+				CANCEL_BUTTON, ACCEPT_BUTTON, 'deleteTrnTestAjax');
+		// set modal div event when close modal
+		$("#divDeleteModal").on('hidden.bs.modal', function() {
+			deleteId = 0;
+		});
+		
+		//set modal div event when modal is shown
+		$("#divDeleteModal").on("shown.bs.modal", function (event) {  
+		    $("#btnModalClose").focus();
+		});
+		
+		$('[data-toggle="tooltip"]').tooltip({
+			placement : 'right'
+		});
+
+		$(".showtooltip").each(
+			function() {
+				var $t = $(this);
+				var title = $t.attr('data-original-title');
+				if (!title) {
+					if (this.offsetWidth < this.scrollWidth)
+						$t.attr('data-original-title', $t.text())
+				} else {
+					if (this.offsetWidth >= this.scrollWidth
+							&& title == $t.text()) {
+						$t.removeAttr('data-original-title')
+					}
+				}
+			});
+		
+		$("#myModal").draggable({
+			handle: ".modal-header",
+		   	containment: "parent",
+		    cursor: "move"
+		});
+		 
+		// set tab active
+		$('.nav-tabs a[href="#checkDataInfo"]').tab('show');
+		
+		// getPatientDetailCheckAjax();
+		
+		$('#rowView').change(function() {
+			var searched = $('#searched').val();
+			$('#numberOfRows').val(this.value);
+			// if the form was post back to server submit form
+			if(searched == 1) {
+				searchFirstTime();
+			}
+		});
+		
+		//set number of rows can show in page
+		var nbRows = $("#numberOfRows").val();	
+		$('#rowView').val(nbRows);
+		
+	});
+
+	//mode edit
+	function resultedit(testId, pdfId, remoteType, pdf, pacemakerId) {
+		//patient check data mode
+		$('#mode').val(2);
+		//set value for hidden fields
+		$('#hdnTestId').val(testId);
+		$('#hdnPdfId').val(pdfId);
+		$('#hdnRemoteType').val(remoteType);
+		$('#hdnPdf').val(pdf);
+		$('#hdnPacemakerId').val(pacemakerId);
+		setJsonSessionStorage('userDetailForm','userDetailForm');
+		$('#userDetailForm').submit();
+	}
+	
+	//mode edit
+	function pacemakeredit() {
+		//patient check data mode
+		$('#mode').val(1);
+		submit();
+	}
+	
+	//mode edit
+	function otherinfoedit() {
+		//patient check data mode
+		$('#mode').val(4);
+		submit();
+	}
+	
+	function submit(){
+		setJsonSessionStorage('userDetailForm','userDetailForm');
+		$('#userDetailForm').submit();
+	}
+	
+	//csv
+	function resultCSV(testid) {
+		$('#testIdCsv').val(testid);
+		//patient check data mode
+		$('#mode').val(3);
+		$('#userDetailForm').submit();
+	}
+	
+	//mode edit
+	function editPatientInfo(hospitalPatientId) {
+		var url = makeNewUrl('editpatient?id=' + hospitalPatientId);
+		window.location = url;
+	}
+	
+	//mode delete
+	var deleteId = 0;
+	
+	function doDelTrnTest(testId, hospitalPatientId, lastName, firstName, importDate) {
+		if (testId > 0) {
+			deleteId = testId;
+			
+			var message = "下記のデータを削除しますが、よろしいですか？<br>";
+			message += "患者ID: " + hospitalPatientId;
+			message += " " + lastName;
+			message += " " + firstName + "<br>";
+			message += "検査日: " + importDate;
+			
+			$("#divDeleteModal p").html(message);
+			
+			$("#divDeleteModal").modal({
+				keyboard : true,
+				show : true
+			});
+		}
+	}
+	
+	//delete ajax
+	function deleteTrnTestAjax() {
+		$('#divFlashMsg').each(function() {
+		    $(this).remove();
+		});
+		if (deleteId > 0) {
+			var urlParam = makeNewUrl('patienttrntestdel?id=' + deleteId);
+			$.ajax({
+				type : 'GET',
+				url : urlParam,
+				success : function(data) {
+					// if data get back from server is empty
+					if (data == '') {
+						$('.tr_' + deleteId).remove(); // remove the row with id
+						$("#divDeleteModal").modal('hide');// hide the delete modal
+					} else {
+						$("#divDeleteModal").modal('hide');//hide delete modal
+						//show message from server in 5 seconds
+						showFlash('checkDataInfo', data, 5000);
+					}
+				}
+			});
+		}
+	}
+	
+	//function open modal
+	//Kadai 65 - removed
+	function openMyModal(id){
+		
+		// if exists template PDF file
+		if(id > 0){
+			$('#myModal').css({'left':'55%', 'top': '23.5%'});
+			var url = '/chess'+'/getViewPDF?pdfOid=' + id;
+			$(".modal-body-pdf").html('<iframe width="800" height="600" frameborder="0" scrolling="no" allowtransparency="true" src="'+url+'"></iframe>');
+		
+		 	//data-backdrop:"false";data-keyboard:"false"; data-toggle:"modal";
+			$('#myModal').modal({ keyboard: true, toggle:"modal", backdrop:false});   // initialized with no keyboard
+			$('#myModal').modal('show');
+		}
+	}
+	
+	function changeColorTo(myclass){
+		var list = document.getElementsByClassName(myclass);
+		for (var i = 0; i < list.length; i++) {
+		    // list[i] is a node with the desired class name
+			list[i].setAttribute('class', list[i].getAttribute('class') + ' color_highlight');
+		}
+	}
+	
+	function restoreColorTo(myclass){
+		var list = document.getElementsByClassName(myclass);
+		for (var i = 0; i < list.length; i++) {
+			var res = list[i].getAttribute('class').replace(" color_highlight", "");
+		    // list[i] is a node with the desired class name
+			list[i].setAttribute('class', res);
+		}
+	}
+	
+	//this function is used to go back to list page
+	function gobackUserList() {
+		getUserListDataInfo();
+		$('#backState').val(1);
+		$('#userDetailForm').submit();
+	}
+
+	function getUserListDataInfo() {
+		$("#hiddenDataSearch").val(getSessionStorage('patientForm'));
+	}
+
+	//kadai no 198 START : related to kadai no.65
+	/**
+	 * open pdf popup
+	 */
+	/* function openWin(id) {
+		
+		// if exists template PDF file
+		if(id > 0){
+			var url = '/chess'+'/getViewPDF?pdfOid=' + id;
+		}
+		
+		if(typeof(myWindow) == 'undefined' || myWindow.closed){
+			//create new
+			myWindow = window.open("", "myWindow", "width=800, height=600");   // Opens a new window
+		}
+		else{
+			myWindow.close();
+			myWindow = window.open("", "myWindow", "width=800, height=600");   // Opens a new window
+		}
+		
+		Popup_Wind[Popup_Wind.length] = myWindow;
+		
+		//clear content
+		myWindow.document.body.innerHTML = "";
+		//it exists, load new content (if necs.)
+		//myWindow.document.write('<iframe width="800" height="600" frameborder="0" scrolling="no" allowtransparency="true" src="'+url+'"></iframe>');
+		myWindow.document.write('<html><head><title>PDF情報</title></head><body height="100%" width="100%"><iframe width="800" height="600" frameborder="0" scrolling="no" allowtransparency="true" src="'+url+'"></iframe></body></html>');
+		//give it focus (in case it got burried)
+		myWindow.focus();
+	} */
+	//kadai no 198 END
+	
+	//forward to user_dataadd mode new
+	function resultAddNew(hospitalPatientId){
+		setJsonSessionStorage('userDetailForm','userDetailForm');
+		var url = makeNewUrl('resultnewadd?id=' + hospitalPatientId);
+		window.location = url;
+	}
+	
+	function getPatientDetailCheckAjax(){
+		$
+		.ajax({
+			url : makeNewUrl("getpatientdetailcheckajax"),
+			type : "post",
+			data : $("#userDetailForm").serialize(),
+			async : false,
+			dataType : "json"
+		})
+		.done(
+				function(result) {
+					if (result == null) {
+						return;
+					}
+					if (result.sessionTimeout) {
+						return;
+					}
+					if (result.message) {
+						return;
+					}
+					fncDrawPatientDetailCheck(result.checkInfoList);
+					fncReSetPatientDetailCheck(result);
+					if(result.totalPages > 1){
+						fncPagination(result);	
+					}
+					else{
+						$("ul.pagination").hide();
+					}
+					
+				}).fail(function() {
+		})
+	}
+	function fncPagination(result){
+		var loopVal = 0;
+		var ul = $("ul.pagination");
+		ul.empty();
+		ul.show();
+		//draw <<
+		if(result.currentPage == 1){
+			ul.append("<li class=\"disable\"><a href=\"javascript:changePage(0);\">&lt;&lt;</a></li>");
+		}
+		else{
+			ul.append("<li class=\"disable\"><a href=\"javascript:changePage(1);\">&lt;&lt;</a></li>");
+		}
+		//
+		if(result.currentPage > 3 && result.currentPage < result.totalPages - 3 ){
+			loopVal = result.currentPage - 3;
+		}
+		else if(result.currentPage > result.totalPages - 5 && result.totalPages > 5){
+			loopVal = result.totalPages - 5;
+		}
+		else{
+			loopVal = 0;
+		}
+		
+		//draw li
+		for (var i = 1; i <= 5; i++) {
+			loopVal ++;
+			if (loopVal <= result.totalPages) {
+				if (result.currentPage == loopVal) {
+					ul
+							.append("<li class=\"active\"><a href=\"javascript:changePage(0);\">"
+									+ loopVal + "</a></li>");
+				} else {
+					ul
+							.append("<li class=\"disable\"><a href=\"javascript:changePage("
+									+ loopVal + ");\">" + loopVal + "</a></li>");
+				}
+			}
+		}
+		//draw >>
+		if(result.currentPage == result.totalPages){
+			ul.append("<li class=\"disable\"><a href=\"javascript:changePage(0);\">&gt;&gt;</a></li>");
+		}
+		else{
+			ul.append("<li class=\"disable\"><a href=\"javascript:changePage(" + result.totalPages + ");\">&gt;&gt;</a></li>");
+		}
+	}
+
+	function fncReSetPatientDetailCheck(result) {
+		$("#numberOfRows").val(result.numberOfRows);
+		$("#startRowIdx").val(result.startRowIdx);
+		$("#searched").val(result.searched);
+		$("#currentPage").val(result.currentPage);
+		$("#patientResultInfo").val(result.patientResultInfo);
+	}
+
+	function fncDrawPatientDetailCheck(data) {
+		var tr_template = $("table#tblCheckDataInfoTemplate>tbody>tr");
+		var tableTbody = $("table#user_detail_table>tbody").empty();
+		var tr_collection = null;
+
+		for (var i = 0; i < data.length; i++) {
+			tr_collection = tr_template.clone();
+
+			var order = (i % 2 != 0) ? 'even' : 'odd';
+			var trTestId = " tr_" + data[i].testId + " tr_striped_" + order;
+			tr_collection.each(function() {
+				$(this).attr("class", $(this).attr("class") + trTestId).attr(
+						"onmouseover", "changeColorTo('" + trTestId + "')")
+						.attr("onmouseout",
+								"restoreColorTo('" + trTestId + "')");
+			});
+			//first row
+			var tr_first = tr_collection.filter("tr.first_row");
+			/* 検査日 */
+			var span = "";
+			if (data[i].remoteType == 1) {
+				span = "<br><span class='label label-info'>"
+						+ data[i].remoteName + "</span>";
+			} else if (data[i].remoteType == 2) {
+				span = "<br><span class='label label-success'>"
+						+ data[i].remoteName + "</span>";
+			} else {
+				span = "<br><span class='label label-default'>"
+						+ data[i].remoteName + "</span>";
+			}
+			/* 検査日 */
+			tr_first.find("td:nth-child(1)").html(
+					parseDate(data[i].testDate) + " " + span);
+			/* Tachy Therapy */
+			if (data[i].tachyTherapy == 'Yes') {
+				tr_first.find("td:nth-child(2)").attr("style",
+						"color:red; font-weight: bold;").html(
+						data[i].tachyTherapy);
+			} else {
+				tr_first.find("td:nth-child(2)").html(data[i].tachyTherapy);
+			}
+			/* Mode */
+			tr_first.find("td:nth-child(3)").html(data[i].mode);
+			/* LRL / MTR */
+			tr_first.find("td:nth-child(4)").html(
+					nullToBlank(data[i].lRL)
+							+ checkNullBlank(data[i].lRL, data[i].mTR)
+							+ nullToBlank(data[i].mTR));
+			/* Battery Row 1 */
+			tr_first.find("td:nth-child(6)").html(data[i].batItem1);
+			/* Lead Imp. (Ω) 1 */
+			tr_first.find("td:nth-child(8)").html(data[i].leadImp1);
+			/* Intrinsic Amp. (mV) */
+			tr_first.find("td:nth-child(10)").html(data[i].intrinsicAmp1);
+			/* Pacing Thre. (V/ms) */
+			tr_first.find("td:nth-child(12)").html(
+					nullToBlank(data[i].pacingTere1)
+							+ checkNullBlank(data[i].pacingTere1,
+									data[i].pacingTere2)
+							+ nullToBlank(data[i].pacingTere2));
+			/* Ap/RVp (%) */
+			tr_first.find("td:nth-child(13)").html(
+					nullToBlank(data[i].aP)
+							+ checkNullBlank(data[i].aP, data[i].rVP)
+							+ nullToBlank(data[i].rVP));
+			/* comment */
+			var comment = nullToBlank(data[i].comment);
+			tr_first.find("td:nth-child(14)").attr(
+					"data-original-title",
+					comment != '' ? comment.replace('<br/>', '') : '').html(comment);
+			/* Action */
+
+			if ($readOnly != '1') {
+				if ($isEdit == '1') {
+
+					var editHref = "<a href=\"javascript:resultedit("
+							+ data[i].testId
+							+ ","
+							+ data[i].pdfId
+							+ ","
+							+ data[i].remoteType
+							+ ","
+							+ data[i].pdf
+							+ ","
+							+ data[i].pacemakerId
+							+ ");\" class=\"btn btn-material-cyan-600 btn-fab btn-fab-mini mdi-editor-border-color\" title=\"選択された検査日のデータ修正を行います。\"></a>";
+					tr_first.find("td.action").append(editHref);
+				}
+
+				if ($isDelete == '1') {
+					var deleteHref = "<a href=\"javascript:doDelTrnTest("
+							+ data[i].testId
+							+ ","
+							+ '1'
+							+ ",'"
+							+ '櫻井'
+							+ "','"
+							+ '太郎'
+							+ "','"
+							+ data[i].importDateYMD
+							+ "');\" class=\"btn btn-material-red btn-fab btn-fab-mini mdi-action-delete\" title=\"選択された行を削除します。\"></a>";
+					tr_first.find("td.action").append(deleteHref);
+				}
+			}
+			var resultCSVHref = "<a href=\"javascript:resultCSV("
+					+ data[i].testId
+					+ ");\" class=\"btn btn-material-brown-600 btn-fab btn-fab-mini mdi-file-file-download\" title=\"選択された検査日のＣＳＶ出力を行います。\"></a>";
+			tr_first.find("td.action").append(resultCSVHref);
+
+			if (data[i].pdf > 0) {
+				var modalHref = "<a href=\"javascript:openMyModal("
+						+ data[i].pdf
+						+ ");\" class=\"btn btn-material-amber-900 btn-fab btn-fab-mini mdi-image-filter\" title=\"選択された検査日のＰＤＦ表示を行います。\"></a>";
+				tr_first.find("td.action").append(modalHref);
+			}
+			//second row
+			var tr_second = tr_collection.filter("tr.second_row");
+			/* Battery Row2 */
+			tr_second.find("td:nth-child(2)").html(data[i].batItem2);
+			/* Lead Imp. (Ω) Row 2 */
+			tr_second.find("td:nth-child(4)").html(data[i].leadImp2);
+			/* Intrinsic Amp. (mV) Row 2*/
+			tr_second.find("td:nth-child(6)").html(data[i].intrinsicAmp2);
+			/* Pacing Thre. (V/ms) Row 2*/
+			tr_second.find("td:nth-child(8)").html(
+					nullToBlank(data[i].pacingTere3)
+							+ checkNullBlank(data[i].pacingTere3,
+									data[i].pacingTere4)
+							+ nullToBlank(data[i].pacingTere4));
+			//third row
+			var tr_third = tr_collection.filter("tr.third_row");
+			/* Battery Row3 */
+			tr_third.find("td:nth-child(2)").html(data[i].batItem3);
+			/* Lead Imp. (Ω) Row 3 */
+			tr_third.find("td:nth-child(4)").html(data[i].leadImp3);
+			/* Intrinsic Amp. (mV) Row 3*/
+			tr_third.find("td:nth-child(6)").html(data[i].intrinsicAmp3);
+			/* Pacing Thre. (V/ms) Row 3*/
+			tr_third.find("td:nth-child(8)").html(
+					nullToBlank(data[i].pacingTere5)
+							+ checkNullBlank(data[i].pacingTere5,
+									data[i].pacingTere6)
+							+ nullToBlank(data[i].pacingTere6));
+
+			//fourth row
+			var tr_fourth = tr_collection.filter("tr.fourth_row");
+			/* Battery Row4 */
+			tr_fourth.find("td:nth-child(2)").html(data[i].batItem4);
+			/* Lead Imp. (Ω) Row 4 */
+			tr_fourth.find("td:nth-child(4)").html(data[i].leadImp4);
+			/* Intrinsic Amp. (mV) Row 4*/
+			tr_fourth.find("td:nth-child(6)").html(data[i].intrinsicAmp4);
+			/* Pacing Thre. (V/ms) Row */
+			tr_fourth.find("td:nth-child(8)").html(
+					nullToBlank(data[i].pacingTere7)
+							+ checkNullBlank(data[i].pacingTere7,
+									data[i].pacingTere8)
+							+ nullToBlank(data[i].pacingTere8));
+
+			tableTbody.append(tr_collection);
+		}
+	}
+
+	function nullToBlank(str) {
+		if (str == null) {
+			return '';
+		}
+		return str;
+	}
+
+	function checkNullBlank(str1, str2) {
+		if ((str1 != '' && str1 != null) || (str2 != '' && str2 != null))
+			return ' / ';
+		return '';
+	}
+
+	//this function calls the 
+	function changePage(idx) {
+		if (idx > 0) {
+			$('#currentPage').val(idx);
+			var nbRows = $("#numberOfRows").val();
+			$('#startRowIdx').val((idx - 1) * nbRows);
+			//getPatientDetailCheckAjax();
+		}
+	}
+
+	//this function will reset the default value for some hidden fields and the call seach() function
+	function searchFirstTime() {
+		$('#startRowIdx').val(0);
+		$('#currentPage').val(1);
+		$('#searched').val(0);
+		//getPatientDetailCheckAjax();
+	}
+</script><div id="snackbar-container"></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div><div id="divDeleteModal" class="modal fade" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header" style="padding-top:5px; padding-bottom:3px;"> <button type="button" class="close" style="margin-top:0px;" data-dismiss="modal" aria-hidden="true">×</button> <h4 class="modal-title">確認</h4> </div> <div class="modal-body"> <p>削除しますが、よろしいですか？</p>  </div> <div class="modal-footer"> <button type="button" id="btnModalDelete" class="btn btn-material-red" onclick="deleteTrnTestAjax();">はい</button> <button type="button" id="btnModalClose" class="btn btn-primary btn-default" data-dismiss="modal">いいえ</button>  </div></div></div></div></body></html>

@@ -1,0 +1,15 @@
+/**
+ * The messages file content all message will be show in client side for all form
+ */
+var MANDATORY_FIELD = '未入力です。';
+var DATE_FORMAT_IS_INVALID = '正しい日付を選択してください。';
+var CONFIRMATION_DELETE_TITLE = '確認';
+var CONFIRMATION_DELETE_MSG = '削除しますが、よろしいですか？';
+var ERROR_DELETE_TITLE = 'エラー';
+var ERROR_DELETE_MSG = '既にデータが紐付けされている為、削除できません。';
+var CANCEL_BUTTON = 'いいえ';
+var ACCEPT_BUTTON = 'はい';
+var IS_VALID_NUMBER_FORMAT = '数字ではありません。';
+var SELECT_OPTION = "Please choice the value";
+var WARNING_DELETE_MSG = '登録ボタンを押下すると、対象データが削除されますので、注意して下さい。';
+var CONFIRM_OK = ' OK ';
